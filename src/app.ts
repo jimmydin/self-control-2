@@ -6,7 +6,7 @@ import { Mongoose } from "mongoose";
 const app: Application = express();
 const mongoose: Mongoose = new Mongoose();
 
-mongoose.connect()
+// mongoose.connect()
 
 app.get("/", (req, res, next)=>{
     res.send("Ok babe, we got it")
