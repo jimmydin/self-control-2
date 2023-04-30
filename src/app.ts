@@ -1,12 +1,19 @@
+import * as dotenv from 'dotenv'
 import express, { Application, ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { Server } from "http";
 import createHttpError from "http-errors";
-import { Mongoose } from "mongoose";
+import { Connection, Mongoose } from "mongoose";
+dotenv.config();
 
 const app: Application = express();
 const mongoose: Mongoose = new Mongoose();
 
-// mongoose.connect()
+mongoose.connect(process.env.DATABASE_URL ?? '');
+const db: Connection = mongoose.connection;
+db.on('error', (err)=> console.error(err));
+db.once('open', ()=> console.log("Database connected"));
+
+app.use(express.json());
 
 app.get("/", (req, res, next)=>{
     res.send("Ok babe, we got it")
@@ -28,4 +35,4 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) =>{
 }
 app.use(errorHandler);
 
-const server: Server = app.listen(3000, ()=> console.log("Server is running"));
+const server: Server = app.listen(4000, ()=> console.log("Server is running"));

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  mongo_bd:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_bd:/data/db
+  api:
+    build: .
+    ports: 
+      - 4000:4000
+    environment:
+      DATABASE_URL: mongodb://mongo_bd/self-control-2
+    depends_on:
+      - mongo_bd
+  # client:
+  #   build: ../../react/hello-world
+  #   ports: 
+  #     - 3000:3000
+  #   depends_on:
+  #     - api
+
+volumes:
+  mongo_bd: {}
